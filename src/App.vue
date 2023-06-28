@@ -3,32 +3,15 @@
     <div class="todo-box">
       <h1>Farnaz Planner</h1>
 
-      <form>
-        <input type="text" placeholder="Add new..." />
-        <button>Add</button>
+      <form @submit.prevent="handleSubmit">
+        <input type="text" placeholder="Add new..." v-model="todoInput" />
+        <button :disabled="!todoInput">Add</button>
       </form>
 
       <hr />
 
       <div class="todo-list">
-        <div class="todo completed">
-          <div class="todo__info">
-            <input type="checkbox" checked />
-            <p>Buy a new Shirt!</p>
-          </div>
-          <div class="todo__actions">
-            <button>❌</button>
-          </div>
-        </div>
-        <div class="todo">
-          <div class="todo__info">
-            <input type="checkbox" />
-            <p>Buy a new book!</p>
-          </div>
-          <div class="todo__actions">
-            <button>❌</button>
-          </div>
-        </div>
+        <todo v-for="todo in todos" :todo="todo" :key="todo.id" />
       </div>
     </div>
   </div>
@@ -36,6 +19,31 @@
 
 <script setup>
 import { reactive, ref } from "vue";
+import todo from "./components/todo.vue";
+
+const todoInput = ref("");
+
+function handleSubmit() {
+  todos.unshift({
+    id: Math.random(),
+    text: todoInput.value,
+    isdone: false,
+  });
+  todoInput.value = "";
+}
+
+const todos = reactive([
+  {
+    id: Math.random(),
+    text: "buy a new laptop!",
+    isDone: true,
+  },
+  {
+    id: Math.random(),
+    text: "go toa trip!",
+    isDone: false,
+  },
+]);
 </script>
 
 <style scoped>
@@ -107,53 +115,5 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 16px;
-}
-
-.todo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(201, 73, 14);
-  border-radius: 4px;
-  padding: 0 8px;
-}
-
-.todo:hover {
-  background-color: rgb(215, 154, 12);
-}
-
-.todo.completed {
-  opacity: 0.4;
-}
-
-.todo.completed p {
-  text-decoration: line-through;
-}
-
-.todo .todo__info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 24px;
-}
-
-.todo__actions button {
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-  filter: grayscale(1);
-  opacity: 0.7;
-  transition: 0.2s;
-  background-color: transparent;
-}
-
-.todo__actions button:hover {
-  filter: grayscale(0);
-  opacity: 1;
-}
-
-.todo input {
-  width: 24px;
-  height: 24px;
 }
 </style>
