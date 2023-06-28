@@ -5,13 +5,15 @@
       <p>{{ todo.text }}</p>
     </div>
     <div class="todo__actions">
-      <button>❌</button>
+      <button @click="emit('delete')">❌</button>
     </div>
   </div>
 </template>
 
 <script setup>
 defineProps(["todo"]);
+
+const emit = defineEmits(["delete"]);
  </script>
 
 
