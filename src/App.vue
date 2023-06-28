@@ -11,7 +11,10 @@
       <hr />
 
       <div class="todo-list" v-if="todos.length">
-        <todo v-for="todo in todos" :todo="todo" :key="todo.id" />
+        <todo v-for="(todo, index) in todos" 
+        :todo="todo" 
+        :key="todo.id" 
+        @delete="handleDelete(index)" />
       </div>
       <div v-else class="empty-todo">add your first plan ^^</div>
     </div>
@@ -31,6 +34,10 @@ function handleSubmit() {
     isdone: false,
   });
   todoInput.value = "";
+}
+
+function handleDelete(index){
+  todo.splice(index, 1)
 }
 
 const todos = reactive([]);
