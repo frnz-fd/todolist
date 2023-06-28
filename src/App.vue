@@ -10,9 +10,10 @@
 
       <hr />
 
-      <div class="todo-list">
+      <div class="todo-list" v-if="todos.length">
         <todo v-for="todo in todos" :todo="todo" :key="todo.id" />
       </div>
+      <div v-else class="empty-todo">add your first plan ^^</div>
     </div>
   </div>
 </template>
@@ -32,18 +33,7 @@ function handleSubmit() {
   todoInput.value = "";
 }
 
-const todos = reactive([
-  {
-    id: Math.random(),
-    text: "buy a new laptop!",
-    isDone: true,
-  },
-  {
-    id: Math.random(),
-    text: "go toa trip!",
-    isDone: false,
-  },
-]);
+const todos = reactive([]);
 </script>
 
 <style scoped>
@@ -115,5 +105,12 @@ hr {
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.empty-todo{
+  text-align: center;
+  margin-top: 2rem;
+  font-size:2rem;
+  color:rgb(220, 106, 75);
 }
 </style>
